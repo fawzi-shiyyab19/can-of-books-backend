@@ -1,6 +1,6 @@
 'use strict';
 
-const bookModel=require('./modules/schema');
+//const bookModel=require('./modules/schema');
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -12,7 +12,12 @@ const PORT = process.env.PORT;
 
 mongoose.connect('mongodb://localhost:27017/bookshelf');
 
-
+ const bookSchema = new mongoose.Schema({
+  title: String,
+   decription:String,
+   status:String
+ });
+ const Book = mongoose.model('book', bookSchema);
 
 function seedBooks(){
   const cleanCode= new Book({
@@ -31,12 +36,18 @@ function seedBooks(){
   status:"Old"
   });
 
-  
+   cleanCode.save();
+   happiness.save();
+   oldFather.save();
+
 }
 
 
+//  seedBooks();
+
+
 app.get('/books', (request, response) => {
-  bookModel.Book.find({},(error,data)=>{
+  Book.find({},(error,data)=>{
     if(error){
       response.status(500).send("error getting data");
     }
